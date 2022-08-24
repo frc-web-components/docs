@@ -1,5 +1,5 @@
-Usage
-=====
+Plugins
+=======
 
 .. _components:
 
