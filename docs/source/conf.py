@@ -2,9 +2,9 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'FRC Web Components'
+copyright = '2022, Amory Galili'
+author = 'Amory Galili'
 
 release = '0.1'
 version = '0.1.0'

@@ -1,5 +1,5 @@
-Welcome to Lumache's documentation!
-===================================
+FRC Web Components
+==================
 
 **Lumache** (/lu'make/) is a Python library for cooks and food lovers
 that creates recipes mixing random ingredients.
