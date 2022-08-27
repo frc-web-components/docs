@@ -27,11 +27,11 @@ Let's create a source provider which can be used to control a number slider:
 
 .. image:: ./assets/plugins-source-provider2.*
 
-First, create a file called `my-provider.ts` in the providers folder:
+First, create a file called `slider-provider.ts` in the providers folder:
 
 .. image:: ./assets/plugins-source-provider3.*
 
-Paste the following code into `my-provider.ts`:
+Paste the following code into `slider-provider.ts`:
 
 .. code-block:: typescript
 
