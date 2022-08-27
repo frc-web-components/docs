@@ -107,3 +107,98 @@ Amazing! This would be a lot more interesting if the data came from an external 
 Now the slider can be controlled through the browser's URL:
 
 .. image:: ./assets/plugins-source-provider6.*
+
+It would be great if moving the slider also updated the URL as well. Let's update SliderProvider to make it do that by adding the following code to `slider-provider.ts`:
+
+.. code-block:: typescript
+
+   function updateHash(key: string, value: string) {
+      const newHash = {
+         ...getHash(),
+         [key]: value
+      };
+      const hashString = Object.entries(newHash)
+         .map(([key, value]) => `${key}=${value}`)
+         .join('&');
+      document.location.hash = `#${hashString}`;
+   }
+
+
+Next we will also be overriding the source provider's `userUpdate` method. The `userUpdate` method is called automatically when a change to an element's properties is detected. The `key` is the source key currently bound to the element's property. The `userUpdate` method has a default implementation which simply calls `updateSource` with the key value pair passed into `userUpdate`:
+
+.. code-block:: typescript
+
+   userUpdate(key: string, value: unknown) {
+      this.updateSource(key, value);
+   }
+
+
+Instead of setting the source directly, we will be instead be updating the URL hash string by calling the `updateHash` method:
+
+.. code-block:: typescript
+
+   userUpdate(key: string, value: unknown) {
+      const numberValue = parseFloat(value as any);
+      const property = ['value', 'min', 'max'].find(prop => key.endsWith(prop));
+      if (!isNaN(numberValue) && property) {
+         updateHash(property, numberValue.toString());
+      }
+  }
+
+The `slider-provider.ts` file should now have the following code:
+
+.. code-block:: typescript
+   import { SourceProvider } from '@webbitjs/store';
+
+   function getHash(): Record<string, string> {
+      const keyValuePairs: Record<string, string> = {};
+      const hash = new URL(document.URL).hash.substring(1);
+      hash.split('&').forEach(keyValue => {
+         const [key, value] = keyValue.split('=');
+         keyValuePairs[key] = value;
+      });
+      return keyValuePairs;
+   }
+
+   function updateHash(key: string, value: string) {
+      const newHash = {
+         ...getHash(),
+         [key]: value
+      };
+      const hashString = Object.entries(newHash)
+         .map(([key, value]) => `${key}=${value}`)
+         .join('&');
+      document.location.hash = `#${hashString}`;
+   }
+
+   export default class SliderProvider extends SourceProvider {
+      constructor() {
+         super();
+         this.updateSliderValues();
+         window.addEventListener('hashchange', () => {
+            this.updateSliderValues();
+         });
+      }
+
+      userUpdate(key: string, value: unknown) {
+         const numberValue = parseFloat(value as any);
+         const property = ['value', 'min', 'max'].find(prop => key.endsWith(prop));
+         if (!isNaN(numberValue) && property) {
+            updateHash(property, numberValue.toString());
+         }
+      }
+
+      private updateSliderValues() {
+         const hash = getHash();
+         ['value', 'min', 'max'].forEach(key => {
+            const value = parseFloat(hash[key]);
+            if (!isNaN(value)) {
+               this.updateSource(`/slider/${key}`, value);
+            }
+         });
+      }
+   }
+
+The URL should now be updated when you move the slider:
+
+.. image:: ./assets/plugins-source-provider7.*
