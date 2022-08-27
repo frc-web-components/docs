@@ -19,4 +19,46 @@ Source Providers
 
 Source Providers are used to provide data to your elements. For example the NetworkTables source provider can be used to control dashboard elements through NetworkTables:
 
-.. image:: ./assets/plugins-source-provider1.gif
+.. image:: ./assets/plugins-source-provider1.*
+
+Above the FRC Accelerometer element's source provider is "NetworkTables" with the key "/accel". This will map entries in the "/accel" subtable to the accelerometer element's properties.
+
+Let's create a source provider which can be used to control a number slider:
+
+.. image:: ./assets/plugins-source-provider2.*
+
+First, create a file called `my-provider.ts` in the providers folder:
+
+.. image:: ./assets/plugins-source-provider3.*
+
+Paste the following code into `my-provider.ts`:
+
+.. code-block:: typescript
+
+   import { SourceProvider } from '@webbitjs/store';
+
+   export default class MyProvider extends SourceProvider {
+      constructor() {
+         super();
+         this.updateSource('/value', 5);
+         this.updateSource('/min', 0);
+         this.updateSource('/max', 10);
+      }
+   }
+
+Now add the following lines to `index.ts`:
+
+.. code-block:: typescript
+   
+   // This is an import that goes at the top of the file
+   import MyProvider from './providers/my-provider';
+
+.. code-block:: typescript
+   
+   // This is how the plugin adds the source provider to the dashboard
+   dashboard.addSourceProvider('Gamepad', new MyProvider());
+
+
+Your `index.ts` file should now look something like this:
+
+.. image:: ./assets/plugins-source-provider4.*
