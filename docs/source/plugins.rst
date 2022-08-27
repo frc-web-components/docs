@@ -56,7 +56,7 @@ Now add the following lines to `index.ts`:
 .. code-block:: typescript
    
    // This is how the plugin adds the source provider to the dashboard
-   dashboard.addSourceProvider('Gamepad', new MyProvider());
+   dashboard.addSourceProvider('MyProvider', new MyProvider());
 
 
 Your `index.ts` file should now look something like this:
