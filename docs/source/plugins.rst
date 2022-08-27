@@ -17,5 +17,6 @@ Stuff about components
 Source Providers
 ----------------
 
-Stuff about Source Providers
+Source Providers are used to provide data to your elements. For example the NetworkTables source provider can be used to control dashboard elements through NetworkTables:
 
+.. image:: ./assets/plugins-source-provider1.gif
