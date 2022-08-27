@@ -63,3 +63,47 @@ Now add the following lines to `index.ts`:
 Your `index.ts` file should now look something like this:
 
 .. image:: ./assets/plugins-source-provider4.*
+
+You can now use the provider on your dashboard's elements:
+
+.. image:: ./assets/plugins-source-provider5.*
+
+Amazing! This would be a lot more interesting if the data came from an external source, however. Let's update SliderProvider so that the sources can be updated in the browser's URL:
+
+.. code-block:: typescript
+
+   import { SourceProvider } from '@webbitjs/store';
+
+   function getHash(): Record<string, string> {
+      const keyValuePairs: Record<string, string> = {};
+      const hash = new URL(document.URL).hash.substring(1);
+      hash.split('&').forEach(keyValue => {
+         const [key, value] = keyValue.split('=');
+         keyValuePairs[key] = value;
+      });
+      return keyValuePairs;
+   }
+
+   export default class SliderProvider extends SourceProvider {
+      constructor() {
+         super();
+         this.updateSliderValues();
+         window.addEventListener('hashchange', () => { 
+            this.updateSliderValues();
+         });
+      }
+
+      private updateSliderValues() {
+         const hash = getHash();
+         ['value', 'min', 'max'].forEach(key => {
+            const value = parseFloat(hash[key]);
+            if (!isNaN(value)) {
+            this.updateSource(`/slider/${key}`, value);
+            }
+         });
+      }
+   }
+
+Now the slider can be controlled through the browser's URL:
+
+.. image:: ./assets/plugins-source-provider6.*
