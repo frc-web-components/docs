@@ -37,26 +37,27 @@ Paste the following code into `my-provider.ts`:
 
    import { SourceProvider } from '@webbitjs/store';
 
-   export default class MyProvider extends SourceProvider {
+   export default class SliderProvider extends SourceProvider {
       constructor() {
          super();
-         this.updateSource('/value', 5);
-         this.updateSource('/min', 0);
-         this.updateSource('/max', 10);
+         this.updateSource('/slider/value', 3);
+         this.updateSource('/slider/min', 0);
+         this.updateSource('/slider/max', 10);
       }
    }
+
 
 Now add the following lines to `index.ts`:
 
 .. code-block:: typescript
    
    // This is an import that goes at the top of the file
-   import MyProvider from './providers/my-provider';
+   import SliderProvider from './providers/slider-provider';
 
 .. code-block:: typescript
    
    // This is how the plugin adds the source provider to the dashboard
-   dashboard.addSourceProvider('MyProvider', new MyProvider());
+   dashboard.addSourceProvider('SliderProvider', new SliderProvider());
 
 
 Your `index.ts` file should now look something like this:
