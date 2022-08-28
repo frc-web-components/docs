@@ -148,6 +148,7 @@ Instead of setting the source directly, we will be instead be updating the URL h
 The `slider-provider.ts` file should now have the following code:
 
 .. code-block:: typescript
+   
    import { SourceProvider } from '@webbitjs/store';
 
    function getHash(): Record<string, string> {
