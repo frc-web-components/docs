@@ -133,7 +133,7 @@ Next we will also be overriding the source provider's `userUpdate` method. The `
    }
 
 
-Instead of setting the source directly, we will be instead be updating the URL hash string by calling the `updateHash` method:
+Instead of setting the source directly, we will instead be updating the URL hash string by calling the `updateHash` method:
 
 .. code-block:: typescript
 
@@ -148,7 +148,7 @@ Instead of setting the source directly, we will be instead be updating the URL h
 The `slider-provider.ts` file should now have the following code:
 
 .. code-block:: typescript
-   
+
    import { SourceProvider } from '@webbitjs/store';
 
    function getHash(): Record<string, string> {
